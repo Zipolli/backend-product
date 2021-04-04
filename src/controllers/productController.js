@@ -50,3 +50,53 @@ exports.SelectDetail = (req, res, next) => {
         })
         .catch(error => next(error));
 };
+exports.Update = (req, res, next) => {
+    const id = req.params.id;
+    const nome = req.body.nome;
+    const descricao = req.body.descricao;
+    const preco = req.body.preco;
+    const qtd_estoque = req.body.qtd_estoque;
+ 
+    product.findByPk(id)
+        .then(product => {
+            if (product) {
+                product.update({
+                    nome: nome,
+                    descricao: descricao,
+                    preco: preco,
+                    qtd_estoque: qtd_estoque
+                },
+                    {
+                        where: { id: id }
+                    })
+                    .then(() => {
+                        res.status(status.OK).send();
+                    })
+                    .catch(error => next(error));
+            } else {
+                res.status(status.NOT_FOUND).send();
+            }
+        })
+        .catch(error => next(error));
+};
+ 
+exports.Delete = (req, res, next) => {
+    const id = req.params.id;
+ 
+    product.findByPk(id)
+        .then(product => {
+            if (product) {
+                product.destroy({
+                    where: { id: id }
+                })
+                    .then(() => {
+                        res.status(status.OK).send();
+                    })
+                    .catch(error => next(error));
+            }
+            else {
+                res.status(status.NOT_FOUND).send();
+            }
+        })
+        .catch(error => next(error));
+};
