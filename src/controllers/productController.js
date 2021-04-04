@@ -27,4 +27,26 @@ exports.Insert = (req, res, next) => {
         //catch = registra o que queremos que aconteca quando a Promise falhar
         .catch(error => next(error));
 };
+
+exports.SelectAll = (req, res, next) => {
+    product.findAll()
+        .then(product => {
+            if (product) {
+                res.status(status.OK).send(product);
+            }
+        })
+        .catch(error => next(error));
+}
+exports.SelectDetail = (req, res, next) => {
+    const id = req.params.id;
  
+    product.findByPk(id)
+        .then(product => {
+            if (product) {
+                res.status(status.OK).send(product);
+            } else {
+                res.status(status.NOT_FOUND).send();
+            }
+        })
+        .catch(error => next(error));
+};
