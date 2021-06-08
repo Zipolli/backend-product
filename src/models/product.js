@@ -41,6 +41,12 @@ const product = sequelize.define("product", {
             len: [1, 999999]
         }
           },
+    ativo: {
+        allowNull: false,
+        type: Sequelize.BOOLEAN(),
+        defaultValue: true
+        }
+    
 });
  
 module.exports = product;
